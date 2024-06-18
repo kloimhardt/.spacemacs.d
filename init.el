@@ -43,29 +43,44 @@ This function should only modify configuration layer settings."
      (markdown :variables markdown-live-preview-engine 'vmd)
      javascript
      html
-     (clojure :variables
-              clojure-toplevel-inside-comment-form t
-              cider-repl-buffer-size-limit 100)
+     (clojure :variables ;;taken from https://practical.li/spacemacs/install-spacemacs/clojure-lsp/configure-lsp-and-cider/
+              ;; clojure-backend 'cider               ;; use cider and disable lsp
+              ;; clojure-enable-linters 'clj-kondo    ;; clj-kondo included in lsp
+              cider-repl-display-help-banner nil      ;; disable help banner
+              cider-pprint-fn 'fipp                   ;; fast pretty printing
+              clojure-indent-style 'align-arguments   ;; vertically align forms
+              clojure-align-forms-automatically t     ;; align form while typing
+              clojure-toplevel-inside-comment-form t  ;; evaluate expressions in comment as top level
+              cider-result-overlay-position 'at-point ;; results shown right after expression
+              cider-overlays-use-font-lock t          ;; use font face everywhere
+              cider-repl-buffer-size-limit 100        ;; limit lines shown in REPL buffer
+              )
      hy
      latex
      json
+
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
 
-     ;;(auto-completion :variables
-     ;;                 auto-completion-enable-help-tooltip t)
      ;; better-defaults
-     auto-completion
+     auto-completion ;; https://practical.li/spacemacs/install-spacemacs/enhance-clojure-experience/ has config for Yasnipped popups
      emacs-lisp
+
+     ;; git, github, version-control taken from https://practical.li/spacemacs/install-spacemacs/enhance-clojure-experience
      (git :variables
           git-magit-status-fullscreen t
           magit-diff-refine-hunk t
           git-enable-magit-todos-plugin t)
+     github
+     (version-control :variables
+                      version-control-diff-tool 'diff-hl
+                      version-control-global-margin t)
+
      helm
-     (lsp :variables
+     (lsp :variables ;;taken from https://practical.li/spacemacs/install-spacemacs/clojure-lsp/configure-lsp-and-cider/
           ;; Formatting and indentation - use Cider instead
           lsp-enable-on-type-formatting t
           ;; Set to nil to use CIDER features instead of LSP UI
@@ -84,10 +99,10 @@ This function should only modify configuration layer settings."
           ;; lsp-ui-doc-enable nil          ;; disable all doc popups
           lsp-ui-doc-show-with-cursor nil   ;; doc popup for cursor
           ;; lsp-ui-doc-show-with-mouse t   ;; doc popup for mouse
-          ;; lsp-ui-doc-delay 2                ;; delay in seconds for popup to display
+          ;; lsp-ui-doc-delay 2             ;; delay in seconds for popup to display
           lsp-ui-doc-include-signature t    ;; include function signature
-          ;; lsp-ui-doc-position 'at-point  ;; top bottom at-point
-          lsp-ui-doc-alignment 'window      ;; frame window
+          ;; lsp-ui-doc-position 'at-point  ;; positioning of doc popup: top bottom at-point
+          lsp-ui-doc-alignment 'window      ;; relative location of doc popup: frame window
 
           ;; code actions and diagnostics text as right-hand side of buffer
           lsp-ui-sideline-enable nil
@@ -116,9 +131,6 @@ This function should only modify configuration layer settings."
      ;; spell-checking
      syntax-checking
      treemacs
-     (version-control :variables
-                      version-control-diff-tool 'diff-hl
-                      version-control-global-margin t)
      )
 
    ;; List of additional packages that will be installed without being wrapped
@@ -491,7 +503,11 @@ It should only modify the values of Spacemacs settings."
    ;;   :size-limit-kb 1000)
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
-   dotspacemacs-line-numbers t
+   dotspacemacs-line-numbers '(:visual t ;; taken from https://practical.li/spacemacs/install-spacemacs/line-numbers/
+                                       :disabled-for-modes dired-mode
+                                       doc-view-mode
+                                       pdf-view-mode
+                                       :size-limit-kb 1000)
 
    ;; Code folding method. Possible values are `evil', `origami' and `vimish'.
    ;; (default 'evil)
