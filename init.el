@@ -74,7 +74,6 @@ This function should only modify configuration layer settings."
           git-magit-status-fullscreen t
           magit-diff-refine-hunk t
           git-enable-magit-todos-plugin t)
-     github
      (version-control :variables
                       version-control-diff-tool 'diff-hl
                       version-control-global-margin t)
@@ -443,7 +442,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default t) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup t
+   dotspacemacs-maximized-at-startup nil
 
    ;; If non-nil the frame is undecorated when Emacs starts up. Combine this
    ;; variable with `dotspacemacs-maximized-at-startup' to obtain fullscreen
@@ -504,7 +503,10 @@ It should only modify the values of Spacemacs settings."
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
    dotspacemacs-line-numbers '(:visual t ;; taken from https://practical.li/spacemacs/install-spacemacs/line-numbers/
-                                       :disabled-for-modes dired-mode
+                                       :disabled-for-modes
+                                       dired-mode
+                                       org-mode
+                                       markdown-mode
                                        doc-view-mode
                                        pdf-view-mode
                                        :size-limit-kb 1000)
@@ -703,6 +705,11 @@ before packages are loaded."
     "e e"  'hy-shell-eval-last-sexp
     )
   (add-to-list 'auto-mode-alist '("\\.phel\\'" . clojure-mode))
+
+  ;; for smooth scroll of images in or mode
+  (use-package org-sliced-images
+    :ensure t
+    :config (org-sliced-images-mode))
 
   )
 
