@@ -44,7 +44,7 @@ This function should only modify configuration layer settings."
      javascript
      html
      (clojure :variables ;;taken from https://practical.li/spacemacs/install-spacemacs/clojure-lsp/configure-lsp-and-cider/
-              ;; clojure-backend 'cider               ;; use cider and disable lsp
+              clojure-backend 'cider               ;; use cider and disable lsp
               ;; clojure-enable-linters 'clj-kondo    ;; clj-kondo included in lsp
               cider-repl-display-help-banner nil      ;; disable help banner
               cider-pprint-fn 'fipp                   ;; fast pretty printing
@@ -79,47 +79,47 @@ This function should only modify configuration layer settings."
                       version-control-global-margin t)
 
      helm
-     (lsp :variables ;;taken from https://practical.li/spacemacs/install-spacemacs/clojure-lsp/configure-lsp-and-cider/
-          ;; Formatting and indentation - use Cider instead
-          lsp-enable-on-type-formatting t
-          ;; Set to nil to use CIDER features instead of LSP UI
-          lsp-enable-indentation t
-          lsp-enable-snippet t  ;; to test again
+     ;; (lsp :variables ;;taken from https://practical.li/spacemacs/install-spacemacs/clojure-lsp/configure-lsp-and-cider/
+     ;;      ;; Formatting and indentation - use Cider instead
+     ;;      lsp-enable-on-type-formatting t
+     ;;      ;; Set to nil to use CIDER features instead of LSP UI
+     ;;      lsp-enable-indentation t
+     ;;      lsp-enable-snippet t  ;; to test again
 
-          ;; symbol highlighting - `lsp-toggle-symbol-highlight` toggles highlighting
-          ;; subtle highlighting for doom-gruvbox-light theme defined in dotspacemacs/user-config
-          lsp-enable-symbol-highlighting t
+     ;;      ;; symbol highlighting - `lsp-toggle-symbol-highlight` toggles highlighting
+     ;;      ;; subtle highlighting for doom-gruvbox-light theme defined in dotspacemacs/user-config
+     ;;      lsp-enable-symbol-highlighting t
 
-          ;; Show lint error indicator in the mode line
-          lsp-modeline-diagnostics-enable t
-          ;; lsp-modeline-diagnostics-scope :workspace
+     ;;      ;; Show lint error indicator in the mode line
+     ;;      lsp-modeline-diagnostics-enable t
+     ;;      ;; lsp-modeline-diagnostics-scope :workspace
 
-          ;; popup documentation boxes
-          ;; lsp-ui-doc-enable nil          ;; disable all doc popups
-          lsp-ui-doc-show-with-cursor nil   ;; doc popup for cursor
-          ;; lsp-ui-doc-show-with-mouse t   ;; doc popup for mouse
-          ;; lsp-ui-doc-delay 2             ;; delay in seconds for popup to display
-          lsp-ui-doc-include-signature t    ;; include function signature
-          ;; lsp-ui-doc-position 'at-point  ;; positioning of doc popup: top bottom at-point
-          lsp-ui-doc-alignment 'window      ;; relative location of doc popup: frame window
+     ;;      ;; popup documentation boxes
+     ;;      ;; lsp-ui-doc-enable nil          ;; disable all doc popups
+     ;;      lsp-ui-doc-show-with-cursor nil   ;; doc popup for cursor
+     ;;      ;; lsp-ui-doc-show-with-mouse t   ;; doc popup for mouse
+     ;;      ;; lsp-ui-doc-delay 2             ;; delay in seconds for popup to display
+     ;;      lsp-ui-doc-include-signature t    ;; include function signature
+     ;;      ;; lsp-ui-doc-position 'at-point  ;; positioning of doc popup: top bottom at-point
+     ;;      lsp-ui-doc-alignment 'window      ;; relative location of doc popup: frame window
 
-          ;; code actions and diagnostics text as right-hand side of buffer
-          lsp-ui-sideline-enable nil
-          lsp-ui-sideline-show-code-actions nil
-          ;; lsp-ui-sideline-delay 500
+     ;;      ;; code actions and diagnostics text as right-hand side of buffer
+     ;;      lsp-ui-sideline-enable nil
+     ;;      lsp-ui-sideline-show-code-actions nil
+     ;;      ;; lsp-ui-sideline-delay 500
 
-          ;; lsp-ui-sideline-show-diagnostics nil
+     ;;      ;; lsp-ui-sideline-show-diagnostics nil
 
-          ;; reference count for functions (assume their maybe other lenses in future)
-          lsp-lens-enable t
+     ;;      ;; reference count for functions (assume their maybe other lenses in future)
+     ;;      lsp-lens-enable t
 
-          ;; Efficient use of space in treemacs-lsp display
-          treemacs-space-between-root-nodes nil
+     ;;      ;; Efficient use of space in treemacs-lsp display
+     ;;      treemacs-space-between-root-nodes nil
 
-          ;; Optimization for large files
-          lsp-file-watch-threshold 10000
-          lsp-log-io nil)
-     ;; markdown
+     ;;      ;; Optimization for large files
+     ;;      lsp-file-watch-threshold 10000
+     ;;      lsp-log-io nil)
+     markdown
      multiple-cursors
      graphviz
      org
@@ -127,9 +127,10 @@ This function should only modify configuration layer settings."
             shell-default-height 30
             shell-default-position 'bottom
             shell-default-shell 'term)
-     ;; spell-checking
+     spell-checking
      syntax-checking
      treemacs
+     elfeed
      )
 
    ;; List of additional packages that will be installed without being wrapped
@@ -140,7 +141,7 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(org-sliced-images)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -522,7 +523,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil smartparens-mode will be enabled in programming modes.
    ;; (default t)
-   dotspacemacs-activate-smartparens-mode t
+   dotspacemacs-activate-smartparens-mode nil
 
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
    ;; over any automatically added closing parenthesis, bracket, quote, etc...
@@ -706,7 +707,15 @@ before packages are loaded."
     )
   (add-to-list 'auto-mode-alist '("\\.phel\\'" . clojure-mode))
 
+  (add-hook 'org-mode-hook 'visual-line-mode)
+  (add-hook 'org-mode-hook 'variable-pitch-mode)
+  (add-hook 'markdown-mode-hook 'visual-line-mode)
+  (add-hook 'markdown-mode-hook 'variable-pitch-mode)
+  (set-face-attribute 'variable-pitch nil :height 160)
+
   ;; for smooth scroll of images in or mode
+  ;; org-sliced-images is also in dotspacemacs-additional-packages above
+  ;; otherwise it gets deleted and reinstalled at startup
   (use-package org-sliced-images
     :ensure t
     :config (org-sliced-images-mode))
@@ -725,9 +734,12 @@ This function is called at the very end of Spacemacs initialization."
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
+   '(elfeed-feeds
+     '("https://www.youtube.com/feeds/videos.xml?channel_id=UC1yNl2E66ZzKApQdRuTQ4tw" "https://mastodon.gamedev.place/@grumpygamer.rss" "https://grumpygamer.com/rss" "https://mastodon.gamedev.place/@JuliaMinamata.rss" "https://clojurecivitas.github.io/posts.xml" "https://functional.cafe/@bhauman.rss" "https://bsky.app/profile/bundespraesident.at/rss" "https://www.arminwolf.at/feed/" "https://bsky.app/profile/arminwolf.at/rss" "https://mastodon.social/@borkdude.rss" "https://bsky.app/profile/3blue1brown.com/rss"))
    '(evil-want-Y-yank-to-eol nil)
+   '(ignored-local-variable-values '((cider-clojure-cli-aliases . "dev")))
    '(package-selected-packages
-     '(add-node-modules-path bundler chruby counsel-gtags counsel swiper ivy lsp-docker enh-ruby-mode ggtags helm-gtags minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing dap-mode bui tern sqlup-mode sql-indent yasnippet-snippets yapfify yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify vterm volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil toc-org terminal-here tagedit symon symbol-overlay string-inflection string-edit sphinx-doc spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs request rainbow-delimiters quickrun pytest pyenv-mode pydoc py-isort pug-mode prettier-js powershell popwin poetry pippel pipenv pip-requirements phpunit phpcbf php-extras php-auto-yasnippets pcre2el password-generator paradox overseer orgit-forge org-superstar org-roam org-rich-yank org-projectile org-present org-pomodoro org-mime org-download org-contrib org-cliplink open-junk-file ob-hy npm-mode nose nodejs-repl nameless multi-term multi-line mmm-mode markdown-toc macrostep lorem-ipsum livid-mode live-py-mode link-hint json-reformat json-navigator json-mode js2-refactor js-doc inspector info+ indent-guide importmagic impatient-mode hybrid-mode hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-ls-git helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-cider helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link gh-md geben fuzzy font-lock+ flycheck-pos-tip flycheck-package flycheck-elsa flycheck-clj-kondo flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-terminal-cursor-changer evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help emr emmet-mode elisp-slime-nav elisp-def editorconfig dumb-jump drupal-mode drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word cython-mode company-web company-reftex company-phpactor company-php company-math company-auctex company-anaconda column-enforce-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu centered-cursor-mode bmx-mode blacken auto-yasnippet auto-highlight-symbol auto-compile auctex-latexmk aggressive-indent adoc-mode ace-link ace-jump-helm-line ac-ispell))
+     '(org-sliced-images add-node-modules-path bundler chruby counsel-gtags counsel swiper ivy lsp-docker enh-ruby-mode ggtags helm-gtags minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing dap-mode bui tern sqlup-mode sql-indent yasnippet-snippets yapfify yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify vterm volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil toc-org terminal-here tagedit symon symbol-overlay string-inflection string-edit sphinx-doc spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs request rainbow-delimiters quickrun pytest pyenv-mode pydoc py-isort pug-mode prettier-js powershell popwin poetry pippel pipenv pip-requirements phpunit phpcbf php-extras php-auto-yasnippets pcre2el password-generator paradox overseer orgit-forge org-superstar org-roam org-rich-yank org-projectile org-present org-pomodoro org-mime org-download org-contrib org-cliplink open-junk-file ob-hy npm-mode nose nodejs-repl nameless multi-term multi-line mmm-mode markdown-toc macrostep lorem-ipsum livid-mode live-py-mode link-hint json-reformat json-navigator json-mode js2-refactor js-doc inspector info+ indent-guide importmagic impatient-mode hybrid-mode hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-ls-git helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-cider helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio gnuplot gitignore-templates git-timemachine git-modes git-messenger git-link gh-md geben fuzzy font-lock+ flycheck-pos-tip flycheck-package flycheck-elsa flycheck-clj-kondo flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-terminal-cursor-changer evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help emr emmet-mode elisp-slime-nav elisp-def editorconfig dumb-jump drupal-mode drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word cython-mode company-web company-reftex company-phpactor company-php company-math company-auctex company-anaconda column-enforce-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu centered-cursor-mode bmx-mode blacken auto-yasnippet auto-highlight-symbol auto-compile auctex-latexmk aggressive-indent adoc-mode ace-link ace-jump-helm-line ac-ispell))
    '(safe-local-variable-values
      '((cider-default-cljs-repl . node)
        (cider-print-fn . "sicmutils.expression/expression->stream")
